@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact — Robbe</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F2F5F7;
+            color: #1A1A1A;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Main content wrapper to push footer down */
+        .main-content {
+            flex: 1;
+        }
+
+        /* Custom cursor */
+        .custom-cursor {
+            position: fixed;
+            pointer-events: none;
+            border-radius: 50%;
+            background-color: rgba(236, 0, 140, 0.1);
+            width: 24px;
+            height: 24px;
+            transition: width 0.3s, height 0.3s, background-color 0.3s;
+            z-index: 9999;
+            transform: translate3d(-50%, -50%, 0);
+            will-change: transform;
+        }
+
+        .custom-cursor.hover {
+            width: 64px;
+            height: 64px;
+            background-color: rgba(236, 0, 140, 0.2);
+        }
+
+        /* Navigation styles */
+        .nav-container {
+            position: fixed;
+            top: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(242, 245, 247, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            z-index: 1000;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            width: calc(100% - 48px);
+            max-width: 1200px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container.scrolled {
+            top: 16px;
+            background: rgba(242, 245, 247, 0.95);
+        }
+
+        .nav-wrapper {
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1A1A1A;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .logo:hover {
+            color: #EC008C;
+        }
+
+        .logo-circle {
+            width: 24px;
+            height: 24px;
+            background-color: #EC008C;
+            border-radius: 50%;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 500;
+            color: #1A1A1A;
+            text-decoration: none;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #EC008C;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #EC008C;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            background: transparent;
+            border: none;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background-color: #1A1A1A;
+            margin: 5px 0;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        /* Contact section */
+        .contact-section {
+            padding: 12rem 0 8rem;
+            position: relative;
+        }
+
+        .contact-container {
+            display: flex;
+            gap: 4rem;
+            align-items: flex-start;
+        }
+
+        .contact-info {
+            flex: 6;
+        }
+
+        .contact-form-container {
+            flex: 4;
+        }
+
+        .contact-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            color: #1A1A1A;
+            margin-bottom: 2rem;
+        }
+
+        .contact-intro {
+            font-size: 1.25rem;
+            line-height: 1.6;
+            color: #4B5563;
+            margin-bottom: 3rem;
+            max-width: 600px;
+        }
+
+        .contact-details {
+            margin-bottom: 3rem;
+        }
+
+        .contact-detail {
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-label {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 500;
+            font-size: 0.875rem;
+            color: #4B5563;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .contact-value {
+            font-size: 1.125rem;
+            color: #1A1A1A;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .contact-value svg {
+            width: 20px;
+            height: 20px;
+            color: #EC008C;
+        }
+
+        .contact-value a {
+            color: #1A1A1A;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-value a:hover {
+            color: #EC008C;
+        }
+
+        .contact-optional {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #4B5563;
+        }
+
+        /* Form styles */
+        .contact-form {
+            background-color: #FFFFFF;
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-field {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 500;
+            font-size: 0.875rem;
+            color: #4B5563;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            color: #1A1A1A;
+            background-color: #F9FAFB;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #EC008C;
+            background-color: #FFFFFF;
+            box-shadow: 0 0 0 3px rgba(236, 0, 140, 0.1);
+        }
+
+        textarea.form-input {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            background-color: #EC008C;
+            color: #FFFFFF;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 500;
+            font-size: 1.125rem;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(236, 0, 140, 0.1), 0 2px 4px -1px rgba(236, 0, 140, 0.06);
+        }
+
+        .form-button:hover {
+            transform: translateY(-2px);
+            background-color: #830D53;
+            box-shadow: 0 6px 8px -1px rgba(131, 13, 83, 0.15), 0 3px 6px -1px rgba(131, 13, 83, 0.1);
+        }
+
+        .form-button svg {
+            width: 20px;
+            height: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .form-button:hover svg {
+            transform: translateX(4px);
+        }
+
+        /* Responsive styles */
+        @media (max-width: 992px) {
+            .contact-container {
+                flex-direction: column;
+                gap: 3rem;
+            }
+
+            .contact-info, 
+            .contact-form-container {
+                width: 100%;
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                top: 16px;
+                width: calc(100% - 32px);
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(242, 245, 247, 0.95);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                padding: 1.5rem 2rem;
+                flex-direction: column;
+                gap: 1.5rem;
+                border-radius: 0 0 20px 20px;
+                box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                border-top: none;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .hamburger.active span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+
+            .hamburger.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(5px, -5px);
+            }
+
+            .contact-section {
+                padding: 8rem 1.5rem 4rem;
+            }
+
+            .contact-form {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Form validation styles */
+        .form-message {
+            margin-top: 1rem;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+        }
+        
+        .form-message.success {
+            background-color: #E8F5E9;
+            color: #2E7D32;
+        }
+        
+        .form-message.error {
+            background-color: #FFEEEE;
+            color: #D32F2F;
+        }
+        
+        .form-message.info {
+            background-color: #E3F2FD;
+            color: #1565C0;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 0.8s linear infinite;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+        
+        /* Input field validation */
+        .form-group input:invalid:focus,
+        .form-group textarea:invalid:focus {
+            border-color: #D32F2F;
+            box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.1);
+        }
+        
+        /* Button states */
+        .btn-submit:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #F2F5F7;
+            padding: 1.5rem 2rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            min-height: 80px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .footer-copyright {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.875rem;
+            color: #1A1A1A;
+            font-weight: 500;
+        }
+
+        .footer-tools {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            color: #4B5563;
+        }
+
+        .footer-actions {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .footer-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            height: 40px;
+            background-color: transparent;
+            color: #EC008C;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 500;
+            font-size: 0.875rem;
+            text-decoration: none;
+            border-radius: 20px;
+            border: 1px solid #EC008C;
+            transition: all 0.3s ease;
+        }
+
+        .footer-cta:hover {
+            background-color: rgba(236, 0, 140, 0.05);
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .footer-social-link {
+            color: #4B5563;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .footer-social-link:hover {
+            color: #EC008C;
+            transform: translateY(-1px);
+        }
+
+        .footer-social-link svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .footer {
+                padding: 1.5rem;
+            }
+
+            .footer-container {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .footer-actions {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .footer-social {
+                gap: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Custom cursor -->
+    <div class="custom-cursor"></div>
+
+    <div class="main-content">
+        <!-- Navigation -->
+        <nav class="nav-container">
+            <div class="nav-wrapper">
+                <a href="index.html" class="logo">
+                    Robbe
+                </a>
+                <div class="nav-links">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="work.html" class="nav-link">Projecten</a>
+                    <a href="aboutme.html" class="nav-link">Over mij</a>
+                    <a href="contact.html" class="nav-link">Contact</a>
+                </div>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Contact section -->
+        <section class="contact-section">
+            <div class="container">
+                <div class="contact-container">
+                    <div class="contact-info">
+                        <h1 class="contact-title">Neem contact op</h1>
+                        <p class="contact-intro">
+                            Heb je een idee, uitdaging of project waar je samen iets moois van wil maken? Ik denk graag met je mee.
+
+Of het nu gaat om een nieuw digitaal product, een redesign of gewoon eens kennismaken — stuur gerust een bericht. Ik ben altijd benieuwd naar inspirerende samenwerkingen.
+                        </p>
+                        <div class="contact-details">
+                            <div class="contact-detail">
+                                <span class="contact-label">E-mail</span>
+                                <div class="contact-value">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M3 8L10.89 13.26C11.2187 13.4793 11.6049 13.5963 12 13.5963C12.3951 13.5963 12.7813 13.4793 13.11 13.26L21 8M5 19H19C19.5304 19 20.0391 18.7893 20.4142 18.4142C20.7893 18.0391 21 17.5304 21 17V7C21 6.46957 20.7893 5.96086 20.4142 5.58579C20.0391 5.21071 19.5304 5 19 5H5C4.46957 5 3.96086 5.21071 3.58579 5.58579C3.21071 5.96086 3 6.46957 3 7V17C3 17.5304 3.21071 18.0391 3.58579 18.4142C3.96086 18.7893 4.46957 19 5 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    <a href="mailto:robbe02@outlook.com">robbe02@outlook.com</a>
+                                </div>
+                            </div>
+                            <div class="contact-detail">
+                                <span class="contact-label">Telefoon</span>
+                                <div class="contact-value">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M22 16.92V19.92C22.0011 20.1985 21.9441 20.4742 21.8325 20.7293C21.7209 20.9845 21.5573 21.2136 21.3521 21.4019C21.1468 21.5901 20.9046 21.7335 20.6407 21.8227C20.3769 21.9119 20.0974 21.9451 19.82 21.92C16.7428 21.5856 13.787 20.5342 11.19 18.85C8.77383 17.3147 6.72534 15.2662 5.19 12.85C3.5 10.2412 2.44822 7.27103 2.12 4.18C2.09501 3.90347 2.12788 3.62476 2.2165 3.36162C2.30513 3.09849 2.44757 2.85669 2.63477 2.65162C2.82196 2.44655 3.0498 2.28271 3.30379 2.17052C3.55778 2.05833 3.83234 2.00026 4.11 2H7.11C7.59531 1.9952 8.06578 2.16708 8.43376 2.48353C8.80173 2.79999 9.04208 3.23945 9.11 3.72C9.23651 4.68007 9.47141 5.62273 9.81 6.53C9.94455 6.88792 9.97366 7.27691 9.89391 7.65088C9.81415 8.02485 9.62886 8.36811 9.36 8.64L8.09 9.91C9.51354 12.4135 11.5865 14.4865 14.09 15.91L15.36 14.64C15.6319 14.3711 15.9752 14.1858 16.3491 14.1061C16.7231 14.0263 17.1121 14.0554 17.47 14.19C18.3773 14.5286 19.3199 14.7635 20.28 14.89C20.7658 14.9585 21.2094 15.2032 21.5265 15.5775C21.8437 15.9518 22.0122 16.4296 22 16.92Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    <a href="tel:+31 6 47308176">+31 6 47308176 </a>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="contact-optional">
+                            Ik sta altijd open voor nieuwe projecten, creatieve samenwerkingen en interessante uitdagingen. Neem gerust contact op om te bespreken wat ik voor je kan betekenen.
+                        </p>
+                    </div>
+                    <div class="contact-form-container">
+                        <form class="contact-form" action="https://formspree.io/f/mwplzrzy" method="POST">
+                            <div class="form-field">
+                                <label for="name" class="form-label">Naam</label>
+                                <input type="text" id="name" name="name" class="form-input" placeholder="Jouw naam" required>
+                            </div>
+                            <div class="form-field">
+                                <label for="email" class="form-label">E-mail</label>
+                                <input type="email" id="email" name="email" class="form-input" placeholder="jouw@email.com" required>
+                            </div>
+                            <div class="form-field">
+                                <label for="message" class="form-label">Bericht</label>
+                                <textarea id="message" name="message" class="form-input" placeholder="Vertel me over je project..." required></textarea>
+                            </div>
+                            <input type="hidden" name="_subject" value="Nieuw bericht van je portfolio website">
+                            <input type="hidden" name="_autoresponse" value="Bedankt voor je bericht! Ik heb je aanvraag ontvangen en zal zo snel mogelijk contact met je opnemen. - Groeten, Robbe">
+                            <input type="hidden" name="_next" value="thankyou.html">
+                            <input type="text" name="_gotcha" style="display:none">
+                            <button type="submit" class="form-button">
+                                Stuur bericht
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <p class="footer-copyright">© 2025 Robbe — UI/UX Designer</p>
+                <p class="footer-tools">Student Fontys ICT Media Design</p>
+            </div>
+            <div class="footer-actions">
+                <a href="contact.html" class="footer-cta">
+                    Contact? →
+                </a>
+                <div class="footer-social">
+                    <a href="https://www.linkedin.com/in/robbe-van-tilburg-1951962a9" class="footer-social-link" target="_blank" rel="noopener noreferrer">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16 8C17.5913 8 19.1174 8.63214 20.2426 9.75736C21.3679 10.8826 22 12.4087 22 14V21H18V14C18 13.4696 17.7893 12.9609 17.4142 12.5858C17.0391 12.2107 16.5304 12 16 12C15.4696 12 14.9609 12.2107 14.5858 12.5858C14.2107 12.9609 14 13.4696 14 14V21H10V14C10 12.4087 10.6321 10.8826 11.7574 9.75736C12.8826 8.63214 14.4087 8 16 8Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M6 9H2V21H6V9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M4 6C5.10457 6 6 5.10457 6 4C6 2.89543 5.10457 2 4 2C2.89543 2 2 2.89543 2 4C2 5.10457 2.89543 6 4 6Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
+                    <a href="mailto:robbe02@outlook.com" class="footer-social-link">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 8L10.89 13.26C11.2187 13.4793 11.6049 13.5963 12 13.5963C12.3951 13.5963 12.7813 13.4793 13.11 13.26L21 8M5 19H19C19.5304 19 20.0391 18.7893 20.4142 18.4142C20.7893 18.0391 21 17.5304 21 17V7C21 6.46957 20.7893 5.96086 20.4142 5.58579C20.0391 5.21071 19.5304 5 19 5H5C4.46957 5 3.96086 5.21071 3.58579 5.58579C3.21071 5.96086 3 6.46957 3 7V17C3 17.5304 3.21071 18.0391 3.58579 18.4142C3.96086 18.7893 4.46957 19 5 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const cursor = document.querySelector('.custom-cursor');
+            const hamburger = document.querySelector('.hamburger');
+            const navLinks = document.querySelector('.nav-links');
+            const navContainer = document.querySelector('.nav-container');
+            const formInputs = document.querySelectorAll('.form-input');
+            const formButton = document.querySelector('.form-button');
+            const contactForm = document.querySelector('.contact-form');
+            
+            console.log('Form element found:', contactForm); // Debug om te controleren of het formulier wordt gevonden
+
+            // Hamburger menu functionality
+            hamburger.addEventListener('click', function() {
+                hamburger.classList.toggle('active');
+                navLinks.classList.toggle('active');
+            });
+
+            // Scroll behavior for navigation
+            let lastScroll = 0;
+            window.addEventListener('scroll', function() {
+                const currentScroll = window.pageYOffset;
+                
+                if (currentScroll > 100) {
+                    navContainer.classList.add('scrolled');
+                } else {
+                    navContainer.classList.remove('scrolled');
+                }
+                
+                lastScroll = currentScroll;
+            });
+
+            // Update cursor position
+            document.addEventListener('mousemove', function (e) {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+            });
+
+            // Hide cursor when leaving the window
+            document.addEventListener('mouseleave', function () {
+                cursor.style.opacity = '0';
+            });
+
+            document.addEventListener('mouseenter', function () {
+                cursor.style.opacity = '1';
+            });
+
+            // Form input hover effects
+            formInputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    cursor.classList.add('hover');
+                });
+
+                input.addEventListener('blur', function() {
+                    cursor.classList.remove('hover');
+                });
+            });
+
+            // Button hover effect
+            formButton.addEventListener('mouseenter', function() {
+                cursor.classList.add('hover');
+            });
+
+            formButton.addEventListener('mouseleave', function() {
+                cursor.classList.remove('hover');
+            });
+
+            // Form submission handling
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    console.log('Form submission intercepted'); // Debug log
+                    
+                    // Create validation message container if it doesn't exist
+                    let messageContainer = document.querySelector('.form-message');
+                    if (!messageContainer) {
+                        messageContainer = document.createElement('div');
+                        messageContainer.className = 'form-message slide-in-up';
+                        contactForm.appendChild(messageContainer);
+                    }
+                    
+                    // Validate form fields
+                    const name = document.getElementById('name').value.trim();
+                    const email = document.getElementById('email').value.trim();
+                    const message = document.getElementById('message').value.trim();
+                    
+                    console.log('Form data:', { name, email, message }); // Debug log
+                    
+                    if (!name || !email || !message) {
+                        messageContainer.textContent = 'Vul alle verplichte velden in.';
+                        messageContainer.className = 'form-message error shake';
+                        return;
+                    }
+                    
+                    // Email validation
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailRegex.test(email)) {
+                        messageContainer.textContent = 'Voer een geldig e-mailadres in.';
+                        messageContainer.className = 'form-message error shake';
+                        return;
+                    }
+                    
+                    // Change button text to loading state
+                    const originalButtonText = formButton.innerHTML;
+                    formButton.innerHTML = '<span class="spinner"></span>Verzenden...';
+                    formButton.disabled = true;
+                    
+                    // Show sending message
+                    messageContainer.textContent = 'Bericht wordt verzonden...';
+                    messageContainer.className = 'form-message info fade-in';
+                    
+                    // Fallback naar FormData in plaats van JSON omdat Formspree mogelijk het JSON formaat niet goed verwerkt
+                    const formData = new FormData();
+                    formData.append('name', name);
+                    formData.append('email', email);
+                    formData.append('message', message);
+                    formData.append('_subject', 'Nieuw bericht van je portfolio website');
+                    
+                    fetch('https://formspree.io/f/mwplzrzy', {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    })
+                    .then(response => {
+                        console.log('Response status:', response.status); // Debug log
+                        if (!response.ok) {
+                            console.error('Form submission error:', response.status, response.statusText);
+                            return response.json().then(data => {
+                                console.error('Error data:', data); // Debug log
+                                throw new Error(data.error || 'Er is iets misgegaan bij het verzenden.');
+                            });
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Success:', data);
+                        // Show success message briefly before redirecting
+                        messageContainer.textContent = 'Bericht succesvol verzonden!';
+                        messageContainer.className = 'form-message success fade-in';
+                        
+                        // Redirect after a short delay
+                        setTimeout(() => {
+                            window.location.href = 'thankyou.html';
+                        }, 1000);
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        
+                        // Reset button text and state
+                        formButton.innerHTML = originalButtonText;
+                        formButton.disabled = false;
+                        
+                        // Show error message
+                        messageContainer.textContent = error.message || 'Er is iets misgegaan. Probeer het later opnieuw of stuur een e-mail naar robbe02@outlook.com';
+                        messageContainer.className = 'form-message error shake';
+                    });
+                });
+            } else {
+                console.error('Contact form not found on the page!');
+            }
+        });
+    </script>
+</body>
+
+</html>

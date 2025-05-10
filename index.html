@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robbe - UI/UX Designer</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9fafb;
+            color: #1f2937;
+            overflow-x: hidden;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Hero section */
+        .hero-section {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem;
+            padding-bottom: 8rem;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero-content {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 4rem;
+        }
+
+        .hero-image-container {
+            width: 41.666%;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .hero-image {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            border-radius: 12px;
+
+        }
+
+        .hero-text {
+            width: 58.333%;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .hero-heading {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            line-height: 1.1;
+            color: #111827;
+        }
+
+        .hero-subtext {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            line-height: 1.6;
+            color: #4b5563;
+            max-width: 36rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.75rem 2rem;
+            background-color: transparent;
+            color: #EC008C;
+            border: 2px solid #EC008C;
+            border-radius: 12px;
+            font-size: 1.125rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            background-color: #EC008C;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 4rem;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0) translateX(-50%);
+            }
+
+            50% {
+                transform: translateY(-10px) translateX(-50%);
+            }
+        }
+
+        /* Custom cursor */
+        .custom-cursor {
+            position: fixed;
+            pointer-events: none;
+            border-radius: 50%;
+            background-color: rgba(236, 0, 140, 0.1);
+            width: 24px;
+            height: 24px;
+            transition: width 0.3s, height 0.3s, background-color 0.3s;
+            z-index: 9999;
+            transform: translate3d(-50%, -50%, 0);
+            will-change: transform;
+        }
+
+        .custom-cursor.hover {
+            width: 64px;
+            height: 64px;
+            background-color: rgba(236, 0, 140, 0.2);
+        }
+
+        /* About section */
+        .about-section {
+            padding: 8rem 2rem;
+            background-color: #ffffff;
+        }
+
+        .about-content {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 4rem;
+        }
+
+        .about-text {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .about-heading {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .about-paragraph {
+            font-size: 1.125rem;
+            color: #4b5563;
+            max-width: 36rem;
+        }
+
+        .badge-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .badge {
+            padding: 0.75rem 1.5rem;
+            background-color: #f3f4f6;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            font-weight: 500;
+            color: #4b5563;
+        }
+
+        .badge:hover {
+            background-color: #FFE6F2;
+            color: #EC008C;
+        }
+
+        .about-visual {
+            width: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .visual-container {
+            width: 100%;
+            max-width: 400px;
+            aspect-ratio: 4/3;
+            background-color: #f9fafb;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .wireframe-illustration {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.9;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+
+            .hero-content,
+            .about-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 2rem;
+            }
+
+            .hero-image-container,
+            .hero-text,
+            .about-text,
+            .about-visual {
+                width: 100%;
+            }
+
+            .hero-image-container,
+            .about-visual {
+                justify-content: center;
+            }
+
+            .hero-image {
+                max-width: 300px;
+            }
+
+            .about-heading {
+                font-size: 2rem;
+            }
+
+            .badge-container {
+                justify-content: flex-start;
+            }
+        }
+
+        .badge {
+            background-color: #F1F4F7;
+            font-family: 'Inter', sans-serif;
+
+        }
+
+        .badge:hover {
+            background-color: #FFE6F2;
+            color: #EC008C;
+
+        }
+
+        /* Navigation styles */
+        .nav-container {
+            position: fixed;
+            top: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(242, 245, 247, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            z-index: 1000;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            width: calc(100% - 48px);
+            max-width: 1200px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container.scrolled {
+            top: 16px;
+            background: rgba(242, 245, 247, 0.95);
+        }
+
+        .nav-wrapper {
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1A1A1A;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .logo:hover {
+            color: #EC008C;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 500;
+            color: #1A1A1A;
+            text-decoration: none;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #EC008C;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #EC008C;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            background: transparent;
+            border: none;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background-color: #1A1A1A;
+            margin: 5px 0;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                top: 16px;
+                width: calc(100% - 32px);
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(242, 245, 247, 0.95);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                padding: 1.5rem 2rem;
+                flex-direction: column;
+                gap: 1.5rem;
+                border-radius: 0 0 20px 20px;
+                box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                border-top: none;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .hamburger.active span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+
+            .hamburger.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(5px, -5px);
+            }
+        }
+
+        /* Process Section */
+        .process-section {
+            padding: 8rem 2rem;
+            background: #FFFFFF;
+            background: linear-gradient(180deg,rgba(255, 255, 255, 1) 0%, rgba(255, 235, 246, 1) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .process-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .process-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .process-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1A1A1A;
+            margin-bottom: 1.5rem;
+        }
+
+        .process-subtitle {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.25rem;
+            color: #4b5563;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .process-card {
+            background: #FFFFFF;
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .process-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .process-icon {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 1.5rem;
+            color: #EC008C;
+        }
+
+        .process-step-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1A1A1A;
+            margin-bottom: 1rem;
+        }
+
+        .process-step-description {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.125rem;
+            color: #4b5563;
+            line-height: 1.6;
+        }
+
+        .process-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .process-card:hover::before {
+            opacity: 0.1;
+        }
+
+        @media (max-width: 768px) {
+            .process-steps {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .process-card {
+                padding: 2rem;
+            }
+
+            .process-title {
+                font-size: 2rem;
+            }
+
+            .process-subtitle {
+                font-size: 1.125rem;
+                padding: 0 1rem;
+            }
+        }
+
+        /* Projects Section */
+        .projects-section {
+            padding: 6rem 2rem;
+            background: #FFFFFF;
+            background: linear-gradient(0deg,rgba(255, 255, 255, 1) 0%, rgba(255, 235, 246, 1) 100%);
+        }
+
+        .projects-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .projects-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .projects-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1A1A1A;
+            margin-bottom: 1.5rem;
+        }
+
+        .featured-projects {
+            display: flex;
+            flex-direction: column;
+            gap: 4rem;
+        }
+
+        .project-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 3rem;
+            min-height: 30vh;
+        }
+
+        .project-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .project-visual {
+            flex: 1;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+            line-height: 0;
+            vertical-align: top;
+        }
+
+        .project-visual:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .project-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+            aspect-ratio: 16 / 9;
+        }
+
+        .project-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding-top: 0;
+            margin-top: -16px;
+        }
+
+        .project-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1A1A1A;
+            margin-bottom: 1.5rem;
+            margin-top: 0;
+            line-height: 1.2;
+        }
+
+        .project-description {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.125rem;
+            color: #4B5563;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            max-width: 500px;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+
+        .project-tag {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            color: #4B5563;
+            background-color: #F1F4F7;
+            transition: all 0.3s ease;
+        }
+
+        .active-project-tag {
+            color: #EC008C;
+            background-color: #FFE6F2;
+        }
+
+        .project-tag:hover {
+            background-color: #FFE6F2;
+            color: #EC008C;
+        }
+
+        .active-project-tag:hover {
+            color: #c40176;
+            background-color: #fcbedc;
+        }
+
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 500;
+            font-size: 1.125rem;
+            color: #EC008C;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            padding: 0.75rem 1.5rem;
+            border: 1px solid #EC008C;
+            border-radius: 12px;
+            background-color: transparent;
+            width: fit-content;
+        }
+
+        .project-link:hover {
+            background-color: #EC008C;
+            color: #FFFFFF;
+        }
+
+        .project-link svg {
+            width: 20px;
+            height: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .project-link:hover svg {
+            transform: translateX(4px);
+        }
+
+        @media (max-width: 992px) {
+            .project-item, 
+            .project-item:nth-child(even) {
+                flex-direction: column;
+                gap: 2rem;
+            }
+
+            .project-info {
+                width: 100%;
+                margin-top: 0;
+            }
+
+            .project-visual {
+                width: 100%;
+            }
+
+            .project-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .projects-section {
+                padding: 4rem 1.5rem;
+            }
+
+            .projects-title {
+                font-size: 2rem;
+            }
+
+            .project-item {
+                gap: 1.5rem;
+            }
+
+            .featured-projects {
+                gap: 3rem;
+            }
+        }
+
+        /* Contact CTA Section */
+        .contact-section {
+            padding: 8rem 2rem;
+            background-color: #FFFFFF;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .contact-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1A1A1A;
+            margin-bottom: 2rem;
+            line-height: 1.2;
+        }
+
+        .contact-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.25rem;
+            color: #4b5563;
+            line-height: 1.6;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .contact-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            background-color: #EC008C;
+            color: #FFFFFF;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 500;
+            font-size: 1.125rem;
+            text-decoration: none;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(236, 0, 140, 0.1), 0 2px 4px -1px rgba(236, 0, 140, 0.06);
+        }
+
+        .contact-button:hover {
+            transform: translateY(-2px);
+            background-color: #c40176;
+            box-shadow: 0 6px 8px -1px rgba(236, 0, 140, 0.15), 0 3px 6px -1px rgba(236, 0, 140, 0.1);
+        }
+
+        .contact-button svg {
+            width: 20px;
+            height: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .contact-button:hover svg {
+            transform: translateX(4px);
+        }
+
+        @media (max-width: 768px) {
+            .contact-section {
+                padding: 6rem 1.5rem;
+            }
+
+            .contact-title {
+                font-size: 2rem;
+            }
+
+            .contact-text {
+                font-size: 1.125rem;
+                padding: 0 1rem;
+            }
+
+            .contact-button {
+                padding: 0.875rem 1.75rem;
+                font-size: 1rem;
+            }
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #F2F5F7;
+            padding: 1.5rem 2rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            min-height: 80px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .footer-copyright {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.875rem;
+            color: #1A1A1A;
+            font-weight: 500;
+        }
+
+        .footer-tools {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            color: #4B5563;
+        }
+
+        .footer-actions {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .footer-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            height: 40px;
+            background-color: transparent;
+            color: #EC008C;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 500;
+            font-size: 0.875rem;
+            text-decoration: none;
+            border-radius: 20px;
+            border: 1px solid #EC008C;
+            transition: all 0.3s ease;
+        }
+
+        .footer-cta:hover {
+            background-color: rgba(236, 0, 140, 0.05);
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .footer-social-link {
+            color: #4B5563;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .footer-social-link:hover {
+            color: #EC008C;
+            transform: translateY(-1px);
+        }
+
+        .footer-social-link svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .footer {
+                padding: 1.5rem;
+            }
+
+            .footer-container {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .footer-actions {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .footer-social {
+                gap: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Custom cursor -->
+    <div class="custom-cursor"></div>
+
+    <!-- Navigation -->
+    <nav class="nav-container">
+        <div class="nav-wrapper">
+            <a href="index.html" class="logo">
+                Robbe
+            </a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="work.html" class="nav-link">Projecten</a>
+                <a href="aboutme.html" class="nav-link">Over mij</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <!-- Animated character on the left -->
+                <div class="hero-image-container">
+                    <img src="images/a.png" alt="Robbe's animated character" class="hero-image hover-element">
+                </div>
+
+                <!-- Text content on the right -->
+                <div class="hero-text">
+                    <h1 class="hero-heading hover-element">Design dat je begrijpt zonder na te denken.</h1>
+
+                    <p class="hero-subtext hover-element">
+                        Ik creëer intuïtieve gebruikerservaringen die naadloos in je dagelijks leven passen,
+                        met focus op helderheid, eenvoud en doordachte interacties.
+                    </p>
+
+                    <div>
+                        <a href="/work.html" class="cta-button hover-element">Bekijk mijn werk</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll indicator -->
+        <div class="scroll-indicator hover-element">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 5V19M12 19L19 12M12 19L5 12" stroke="#EC008C" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+            </svg>
+        </div>
+    </section>
+    <section class="about-section">
+        <div class="container">
+            <div class="about-content">
+                <!-- Text content on the left -->
+                <div class="about-text">
+                    <h2 class="about-heading hover-element">Hi, ik ben Robbe.</h2>
+
+                    <p class="about-paragraph hover-element">
+                        Ik help digitale producten toegankelijker maken door te ontwerpen voor mensen,
+                        niet alleen voor schermen. Mijn focus ligt op helderheid, gebruiksgemak en
+                        consistente visuele systemen.
+                    </p>
+
+                    <div class="badge-container">
+                        <span class="badge">UX Research</span>
+                        <span class="badge">UI Design (Web & App)</span>
+                        <span class="badge">Branding & Style Guides</span>
+                    </div>
+                </div>
+
+                <!-- Visual content on the right -->
+                <div class="about-visual">
+                    <div class="visual-container hover-element">
+                        <!-- Placeholder for wireframe illustration -->
+                        <svg class="wireframe-illustration" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Background grid -->
+                            <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#e5e7eb" stroke-width="1" />
+                            </pattern>
+                            <rect width="400" height="300" fill="url(#grid)" />
+
+                            <!-- Wireframe elements -->
+                            <!-- Header -->
+                            <rect x="40" y="30" width="320" height="40" rx="8" fill="#e5e7eb" opacity="0.7" />
+
+                            <!-- Main content area -->
+                            <rect x="40" y="90" width="200" height="160" rx="8" fill="#e5e7eb" opacity="0.5" />
+
+                            <!-- Sidebar elements -->
+                            <rect x="260" y="90" width="100" height="30" rx="6" fill="#e5e7eb" opacity="0.6" />
+                            <rect x="260" y="130" width="100" height="30" rx="6" fill="#e5e7eb" opacity="0.6" />
+                            <rect x="260" y="170" width="100" height="30" rx="6" fill="#e5e7eb" opacity="0.6" />
+                            <rect x="260" y="210" width="100" height="40" rx="6" fill="#EC008C" opacity="0.2" />
+
+                            <!-- Design elements -->
+                            <circle cx="150" cy="160" r="30" fill="#EC008C" opacity="0.15" />
+                            <rect x="70" y="120" width="60" height="8" rx="4" fill="#6b7280" opacity="0.5" />
+                            <rect x="70" y="140" width="100" height="6" rx="3" fill="#6b7280" opacity="0.3" />
+                            <rect x="70" y="155" width="80" height="6" rx="3" fill="#6b7280" opacity="0.3" />
+
+                            <!-- Decorative elements -->
+                            <circle cx="70" cy="210" r="15" fill="#EC008C" opacity="0.1" />
+                            <circle cx="100" cy="210" r="15" fill="#EC008C" opacity="0.15" />
+                            <circle cx="130" cy="210" r="15" fill="#EC008C" opacity="0.2" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="process-section">
+        <div class="process-container">
+            <div class="process-header">
+                <h2 class="process-title">Mijn aanpak</h2>
+                <p class="process-subtitle">Geen standaard stappenplan. Wél een werkwijze die werkt — omdat ik kijk naar het échte probleem.</p>
+            </div>
+
+            <div class="process-steps">
+                <div class="process-card">
+                    <svg class="process-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M19.4 15C19.2669 15.3016 19.2272 15.6362 19.286 15.9606C19.3448 16.285 19.4995 16.5843 19.73 16.82L19.79 16.88C19.976 17.0657 20.1235 17.2863 20.2241 17.5291C20.3247 17.7719 20.3766 18.0322 20.3766 18.295C20.3766 18.5578 20.3247 18.8181 20.2241 19.0609C20.1235 19.3037 19.976 19.5243 19.79 19.71C19.6043 19.896 19.3837 20.0435 19.1409 20.1441C18.8981 20.2447 18.6378 20.2966 18.375 20.2966C18.1122 20.2966 17.8519 20.2447 17.6091 20.1441C17.3663 20.0435 17.1457 19.896 16.96 19.71L16.9 19.65C16.6643 19.4195 16.365 19.2648 16.0406 19.206C15.7162 19.1472 15.3816 19.1869 15.08 19.32C14.7842 19.4468 14.532 19.6572 14.3543 19.9255C14.1766 20.1938 14.0813 20.5082 14.08 20.83V21C14.08 21.5304 13.8693 22.0391 13.4942 22.4142C13.1191 22.7893 12.6104 23 12.08 23C11.5496 23 11.0409 22.7893 10.6658 22.4142C10.2907 22.0391 10.08 21.5304 10.08 21V20.91C10.0723 20.579 9.96512 20.2562 9.77299 19.9815C9.58086 19.7068 9.31219 19.4919 9 19.36C8.69838 19.2272 8.36381 19.1872 8.03941 19.246C7.71502 19.3048 7.41568 19.4595 7.18 19.69L7.12 19.75C6.93425 19.936 6.71368 20.0835 6.47088 20.1841C6.22808 20.2847 5.96783 20.3366 5.705 20.3366C5.44217 20.3366 5.18192 20.2847 4.93912 20.1841C4.69632 20.0835 4.47575 19.936 4.29 19.75C4.10405 19.5643 3.95653 19.3437 3.85588 19.1009C3.75523 18.8581 3.70343 18.5978 3.70343 18.335C3.70343 18.0722 3.75523 17.8119 3.85588 17.5691C3.95653 17.3263 4.10405 17.1057 4.29 16.92L4.35 16.86C4.58054 16.6243 4.73519 16.325 4.794 16.0006C4.85282 15.6762 4.81312 15.3416 4.68 15.04C4.55324 14.7442 4.34276 14.492 4.07447 14.3143C3.80618 14.1366 3.49179 14.0413 3.17 14.04H3C2.46957 14.04 1.96086 13.8293 1.58579 13.4542C1.21071 13.0791 1 12.5704 1 12.04C1 11.5096 1.21071 11.0009 1.58579 10.6258C1.96086 10.2507 2.46957 10.04 3 10.04H3.09C3.42099 10.0323 3.74381 9.92512 4.01852 9.73299C4.29324 9.54086 4.50811 9.27219 4.64 8.96C4.77276 8.65838 4.81276 8.32381 4.754 7.99941C4.69523 7.67502 4.54054 7.37568 4.31 7.14L4.25 7.08C4.06425 6.89405 3.91653 6.67348 3.81588 6.43068C3.71523 6.18788 3.66343 5.92763 3.66343 5.6648C3.66343 5.40197 3.71523 5.14172 3.81588 4.89892C3.91653 4.65612 4.06405 4.43555 4.25 4.2498C4.43575 4.06385 4.65632 3.91633 4.89912 3.81568C5.14192 3.71503 5.40217 3.66323 5.665 3.66323C5.92783 3.66323 6.18808 3.71503 6.43088 3.81568C6.67368 3.91633 6.89425 4.06385 7.08 4.2498L7.14 4.3098C7.37568 4.54034 7.67502 4.69499 7.99941 4.7538C8.32381 4.81262 8.65838 4.77292 8.96 4.6398H9C9.29577 4.51304 9.54802 4.30256 9.72568 4.03427C9.90335 3.76598 9.99868 3.45159 10 3.1298V3.0498C10 2.51937 10.2107 2.01066 10.5858 1.63559C10.9609 1.26052 11.4696 1.0498 12 1.0498C12.5304 1.0498 13.0391 1.26052 13.4142 1.63559C13.7893 2.01066 14 2.51937 14 3.0498V3.1398C14.0013 3.46159 14.0967 3.77598 14.2743 4.04427C14.452 4.31256 14.7042 4.52304 15 4.6498C15.3016 4.78292 15.6362 4.82262 15.9606 4.7638C16.285 4.70498 16.5843 4.55034 16.82 4.3198L16.88 4.2598C17.0657 4.07405 17.2863 3.92653 17.5291 3.82588C17.7719 3.72523 18.0322 3.67343 18.295 3.67343C18.5578 3.67343 18.8181 3.72523 19.0609 3.82588C19.3037 3.92653 19.5243 4.07405 19.71 4.2598C19.8957 4.44555 20.0432 4.66612 20.1439 4.90892C20.2445 5.15172 20.2963 5.41197 20.2963 5.6748C20.2963 5.93763 20.2445 6.19788 20.1439 6.44068C20.0432 6.68348 19.8957 6.90405 19.71 7.0898L19.65 7.1498C19.4195 7.38548 19.2648 7.68482 19.206 8.00921C19.1472 8.33361 19.1869 8.66818 19.32 8.9698V9.0098C19.4468 9.30557 19.6572 9.55782 19.9255 9.73548C20.1938 9.91315 20.5082 10.0085 20.83 10.0098H21C21.5304 10.0098 22.0391 10.2205 22.4142 10.5956C22.7893 10.9707 23 11.4794 23 12.0098C23 12.5402 22.7893 13.0489 22.4142 13.424C22.0391 13.7991 21.5304 14.0098 21 14.0098H20.91C20.5882 14.0111 20.2738 14.1064 20.0055 14.2841C19.7372 14.4618 19.5268 14.714 19.4 15.0098Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <h3 class="process-step-title">Luisteren & doorvragen</h3>
+                    <p class="process-step-description">Elke opdracht begint bij de vraag. En bij wat daaronder ligt. Ik luister scherp en vraag door tot het écht klopt.</p>
+                </div>
+
+                <div class="process-card">
+                    <svg class="process-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <h3 class="process-step-title">Onderzoek & testen</h3>
+                    <p class="process-step-description">Ik kijk naar de eindgebruiker: wat verwachten ze, waar lopen ze vast, en wat kan eenvoudiger? Met UX-onderzoek haal ik waardevolle inzichten naar boven.</p>
+                </div>
+
+                <div class="process-card">
+                    <svg class="process-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7 21H17C18.1046 21 19 20.1046 19 19V9.41421C19 9.149 18.8946 8.89464 18.7071 8.70711L13.2929 3.29289C13.1054 3.10536 12.851 3 12.5858 3H7C5.89543 3 5 3.89543 5 5V19C5 20.1046 5.89543 21 7 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <h3 class="process-step-title">Ontwerpen & verbeteren</h3>
+                    <p class="process-step-description">Op basis van alles wat we weten, maak ik ontwerpen die intuïtief aanvoelen. Helder, consistent en afgestemd op wie ermee werkt.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="projects-section">
+        <div class="projects-container">
+            <div class="projects-header">
+                <h2 class="projects-title">Projecten in de spotlight</h2>
+            </div>
+
+            <div class="featured-projects">
+                <div class="project-item">
+                    <div class="project-visual">
+                        <img src="images/Finished_Room(1).png" alt="Project 1" class="project-image">
+                    </div>
+                    <div class="project-info">
+                        <h3 class="project-title">Virtual humans tegen eenzaamheid</h3>
+                        <p class="project-description">Een empathische Virtual Human voor eenzame ouderen, met focus op natuurlijke interactie en laagdrempelige bediening.</p>
+                        <div class="project-tags">
+                            <span class="project-tag active-project-tag">UX Research</span>
+                            <span class="project-tag">UI Design</span>
+                            <span class="project-tag">Accessibility</span>
+                            <span class="project-tag">Empathy</span>
+                        </div>
+                        <a href="#" class="project-link">
+                            Bekijk project
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="project-item">
+                    <div class="project-visual">
+                        <img src="images/Animated.gif" alt="Project 2" class="project-image">
+                    </div>
+                    <div class="project-info">
+                        <h3 class="project-title">Waterbesparen voor de toekomst</h3>
+                        <p class="project-description">Een speelse campagne voor waterbesparing, met focus op lokale trots en gemeenschapsgevoel.</p>
+                        <div class="project-tags">
+                            <span class="project-tag active-project-tag">UI Design</span>
+                            <span class="project-tag">UX Research</span>
+                            <span class="project-tag">Conversion</span>
+                        </div>
+                        <a href="#" class="project-link">
+                            Bekijk project
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="project-item">
+                    <div class="project-visual">
+                        <img src="images/mockup1.png" alt="Project 3" class="project-image">
+                    </div>
+                    <div class="project-info">
+                        <h3 class="project-title">Fijner winkelen bij Jumbo</h3>
+                        <p class="project-description">Een herontwerp van het zelfscanproces bij Jumbo, met focus op klantvertrouwen en positieve gedragssturing.</p>
+                        <div class="project-tags">
+                            <span class="project-tag active-project-tag">UX Research</span>
+                            <span class="project-tag">UI Design</span>
+                            <span class="project-tag">Storytelling</span>
+                            <span class="project-tag">Klantenproces</span>
+                        </div>
+                        <a href="#" class="project-link">
+                            Bekijk project
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact-section">
+        <div class="contact-container">
+            <h2 class="contact-title">Liever even mailen dan scrollen?</h2>
+            <p class="contact-text">
+                Ik denk graag met je mee — of je nu een losse designvraag hebt, of op zoek bent naar een designer die echt naar je luistert.
+                Stuur me een bericht en ik reageer persoonlijk.
+            </p>
+            <a href="contact.html" class="contact-button">
+                Stuur een bericht
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </a>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <p class="footer-copyright">© 2025 Robbe — UI/UX Designer</p>
+                <p class="footer-tools">Student Fontys ICT Media Design</p>
+            </div>
+            <div class="footer-actions">
+                <a href="contact.html" class="footer-cta">
+                    Contact? →
+                </a>
+                <div class="footer-social">
+                    <a href="https://www.linkedin.com/in/robbe-van-tilburg-1951962a9" class="footer-social-link" target="_blank" rel="noopener noreferrer">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16 8C17.5913 8 19.1174 8.63214 20.2426 9.75736C21.3679 10.8826 22 12.4087 22 14V21H18V14C18 13.4696 17.7893 12.9609 17.4142 12.5858C17.0391 12.2107 16.5304 12 16 12C15.4696 12 14.9609 12.2107 14.5858 12.5858C14.2107 12.9609 14 13.4696 14 14V21H10V14C10 12.4087 10.6321 10.8826 11.7574 9.75736C12.8826 8.63214 14.4087 8 16 8Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M6 9H2V21H6V9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M4 6C5.10457 6 6 5.10457 6 4C6 2.89543 5.10457 2 4 2C2.89543 2 2 2.89543 2 4C2 5.10457 2.89543 6 4 6Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
+                    <a href="mailto:robbe02@outlook.com" class="footer-social-link">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 8L10.89 13.26C11.2187 13.4793 11.6049 13.5963 12 13.5963C12.3951 13.5963 12.7813 13.4793 13.11 13.26L21 8M5 19H19C19.5304 19 20.0391 18.7893 20.4142 18.4142C20.7893 18.0391 21 17.5304 21 17V7C21 6.46957 20.7893 5.96086 20.4142 5.58579C20.0391 5.21071 19.5304 5 19 5H5C4.46957 5 3.96086 5.21071 3.58579 5.58579C3.21071 5.96086 3 6.46957 3 7V17C3 17.5304 3.21071 18.0391 3.58579 18.4142C3.96086 18.7893 4.46957 19 5 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const cursor = document.querySelector('.custom-cursor');
+            const hoverElements = document.querySelectorAll('.hover-element');
+            const hamburger = document.querySelector('.hamburger');
+            const navLinks = document.querySelector('.nav-links');
+            const navContainer = document.querySelector('.nav-container');
+
+            // Hamburger menu functionality
+            hamburger.addEventListener('click', function() {
+                hamburger.classList.toggle('active');
+                navLinks.classList.toggle('active');
+            });
+
+            // Scroll behavior for navigation
+            let lastScroll = 0;
+            window.addEventListener('scroll', function() {
+                const currentScroll = window.pageYOffset;
+                
+                if (currentScroll > 100) {
+                    navContainer.classList.add('scrolled');
+                } else {
+                    navContainer.classList.remove('scrolled');
+                }
+                
+                lastScroll = currentScroll;
+            });
+
+            // Update cursor position
+            document.addEventListener('mousemove', function (e) {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+            });
+
+            // Handle hover effects
+            hoverElements.forEach(element => {
+                element.addEventListener('mouseenter', function () {
+                    cursor.classList.add('hover');
+                });
+
+                element.addEventListener('mouseleave', function () {
+                    cursor.classList.remove('hover');
+                });
+            });
+
+            // Hide cursor when leaving the window
+            document.addEventListener('mouseleave', function () {
+                cursor.style.opacity = '0';
+            });
+
+            document.addEventListener('mouseenter', function () {
+                cursor.style.opacity = '1';
+            });
+        });
+    </script>
+</body>
+
+</html>

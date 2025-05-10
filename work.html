@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projecten — Robbe</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* Reset and base styles */
+        * {
+            padding: 0;
+            box-sizing: border-box;
+            margin: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FFFFFF;
+            color: #1f2937;
+            overflow-x: hidden;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .main-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Navigation styles */
+        .nav-container {
+            position: fixed;
+            top: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(242, 245, 247, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            z-index: 1000;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            width: calc(100% - 48px);
+            max-width: 1200px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container.scrolled {
+            top: 16px;
+            background: rgba(242, 245, 247, 0.95);
+        }
+
+        .nav-wrapper {
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1A1A1A;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .logo:hover {
+            color: #EC008C;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 500;
+            color: #1A1A1A;
+            text-decoration: none;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #EC008C;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #EC008C;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            background: transparent;
+            border: none;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background-color: #1A1A1A;
+            margin: 5px 0;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        /* Projects page styles */
+        .projects-page {
+            padding-top: 8rem;
+            padding-bottom: 8rem;
+        }
+
+        .projects-intro {
+            text-align: center;
+            margin-bottom: 6rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .projects-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #1A1A1A;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .projects-subtitle {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.5rem;
+            color: #4B5563;
+            line-height: 1.6;
+        }
+
+        .projects-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .project-section {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 6rem 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .project-section:last-child {
+            border-bottom: none;
+        }
+
+        .project-inner {
+            display: flex;
+            align-items: flex-start;
+            gap: 4rem;
+        }
+
+        .project-visual {
+            flex: 1;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+            line-height: 0;
+            vertical-align: top;
+        }
+
+        .project-visual:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .project-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+            aspect-ratio: 16 / 9;
+        }
+
+        .project-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding-top: 0;
+            margin-top: -24px;
+        }
+
+        .project-number {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem;
+            color: #EC008C;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .project-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: #1A1A1A;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            margin-top: 0;
+        }
+
+        .project-description {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.25rem;
+            color: #4B5563;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            max-width: 500px;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+
+        .project-tag {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            background-color: #F1F4F7;
+            color: #4B5563;
+            transition: all 0.3s ease;
+        }
+
+        .project-tag:hover {
+            background-color: #FFE6F2;
+            color: #EC008C;
+        }
+
+        .active-project-tag {
+            color: #EC008C;
+            background-color: #FFE6F2;
+        }
+
+        .active-project-tag:hover {
+            color: #c40176;
+            background-color: #fcbedc;
+        }
+
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 500;
+            font-size: 1.125rem;
+            color: #EC008C;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            padding: 0.75rem 1.5rem;
+            border: 1px solid #EC008C;
+            border-radius: 12px;
+            background-color: transparent;
+            width: fit-content;
+        }
+
+        .project-link:hover {
+            background-color: #EC008C;
+            color: #FFFFFF;
+        }
+
+        .project-link svg {
+            width: 20px;
+            height: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .project-link:hover svg {
+            transform: translateX(4px);
+        }
+
+        /* Alternate layout for even-numbered projects */
+        .project-section:nth-child(even) .project-inner {
+            flex-direction: row-reverse;
+        }
+
+        /* Footer styles */
+        .footer {
+            background-color: #F2F5F7;
+            padding: 1.5rem 2rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            min-height: 80px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .footer-copyright {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.875rem;
+            color: #1A1A1A;
+            font-weight: 500;
+        }
+
+        .footer-tools {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            color: #4B5563;
+        }
+
+        .footer-actions {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .footer-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            height: 40px;
+            background-color: transparent;
+            color: #EC008C;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 500;
+            font-size: 0.875rem;
+            text-decoration: none;
+            border-radius: 20px;
+            border: 1px solid #EC008C;
+            transition: all 0.3s ease;
+        }
+
+        .footer-cta:hover {
+            background-color: rgba(236, 0, 140, 0.05);
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .footer-social-link {
+            color: #4B5563;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .footer-social-link:hover {
+            color: #EC008C;
+            transform: translateY(-1px);
+        }
+
+        .footer-social-link svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 1200px) {
+            .project-card {
+                width: calc(50% - 1.5rem);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .project-inner {
+                flex-direction: column !important;
+                gap: 3rem;
+            }
+
+            .project-info {
+                width: 100%;
+            }
+
+            .project-visual {
+                width: 100%;
+            }
+
+            .project-title {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                top: 16px;
+                width: calc(100% - 32px);
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(242, 245, 247, 0.95);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                padding: 1.5rem 2rem;
+                flex-direction: column;
+                gap: 1.5rem;
+                border-radius: 0 0 20px 20px;
+                box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                border-top: none;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .hamburger.active span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+
+            .hamburger.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(5px, -5px);
+            }
+
+            .projects-page {
+                padding-top: 6rem;
+                padding-bottom: 6rem;
+            }
+
+            .projects-title {
+                font-size: 2.5rem;
+            }
+
+            .projects-subtitle {
+                font-size: 1.25rem;
+                padding: 0 1rem;
+            }
+
+            .project-section {
+                padding: 4rem 1.5rem;
+                min-height: auto;
+            }
+
+            .project-title {
+                font-size: 2rem;
+            }
+
+            .project-description {
+                font-size: 1rem;
+            }
+
+            .footer {
+                padding: 1.5rem;
+            }
+
+            .footer-container {
+                flex-direction: column;
+                gap: 1.5rem;
+                text-align: center;
+            }
+
+            .footer-actions {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .footer-social {
+                gap: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="nav-container">
+        <div class="nav-wrapper">
+            <a href="index.html" class="logo">
+                <div class="logo-circle"></div>
+                Robbe
+            </a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="work.html" class="nav-link">Projecten</a>
+                <a href="aboutme.html" class="nav-link">Over mij</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="projects-page">
+        <div class="container">
+            <div class="projects-intro">
+                <h1 class="projects-title">Projecten</h1>
+                <p class="projects-subtitle">
+                    Van UX-onderzoek tot complete redesigns — een selectie van mijn werk.
+                </p>
+            </div>
+        </div>
+
+        <div class="main-container">
+            <div class="projects-container">
+                <!-- Project 1 -->
+                <div class="project-section" data-categories="ui web">
+                    <div class="project-inner">
+                        <div class="project-visual">
+                            <img src="images/Finished_Room(1).png" alt="Project 1" class="project-image">
+                        </div>
+                        <div class="project-info">
+                            <h3 class="project-title">Virtual humans tegen eenzaamheid</h3>
+                            <p class="project-description">Een empathische Virtual Human voor eenzame ouderen, met focus op natuurlijke interactie en laagdrempelige bediening.</p>
+                            <div class="project-tags">
+                                <span class="project-tag active-project-tag">UX Research</span>
+                                <span class="project-tag">UI Design</span>
+                                <span class="project-tag">Accessibility</span>
+                                <span class="project-tag">Empathy</span>
+                            </div>
+                            <a href="#" class="project-link">
+                                Bekijk project
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="project-section" data-categories="ux app">
+                    <div class="project-inner">
+                        <div class="project-visual">
+                            <img src="images/Animated.gif" alt="Project 2" class="project-image">
+                        </div>
+                        <div class="project-info">
+                            
+                            <h3 class="project-title">Waterbesparen voor de toekomst</h3>
+                            <p class="project-description">Een speelse campagne voor waterbesparing, met focus op lokale trots en gemeenschapsgevoel.</p>
+                            <div class="project-tags">
+                            <span class="project-tag active-project-tag">UI Design</span>
+                                <span class="project-tag">UX Research</span>
+                                <span class="project-tag">Conversion</span>
+                            </div>
+                            <a href="#" class="project-link">
+                                Bekijk project
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="project-section" data-categories="branding web">
+                    <div class="project-inner">
+                        <div class="project-visual">
+                            <img src="images/mockup1.png" alt="Project 3" class="project-image">
+                        </div>
+                        <div class="project-info">
+                            <h3 class="project-title">Fijner winkelen bij Jumbo</h3>
+                            <p class="project-description">Een herontwerp van het zelfscanproces bij Jumbo, met focus op klantvertrouwen en positieve gedragssturing.</p>
+                            <div class="project-tags">
+                                <span class="project-tag active-project-tag">UX Research</span>
+                                <span class="project-tag">UI Design</span>
+                                <span class="project-tag">Storytelling</span>
+                                <span class="project-tag">Klantenproces</span>
+                            </div>
+                            <a href="#" class="project-link">
+                                Bekijk project
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <p class="footer-copyright">© 2025 Robbe — UI/UX Designer</p>
+                <p class="footer-tools">Student Fontys ICT Media Design</p>
+            </div>
+            <div class="footer-actions">
+                <a href="contact.html" class="footer-cta">
+                    Contact? →
+                </a>
+                <div class="footer-social">
+                    <a href="https://www.linkedin.com/in/robbe-van-tilburg-1951962a9" class="footer-social-link" target="_blank" rel="noopener noreferrer">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16 8C17.5913 8 19.1174 8.63214 20.2426 9.75736C21.3679 10.8826 22 12.4087 22 14V21H18V14C18 13.4696 17.7893 12.9609 17.4142 12.5858C17.0391 12.2107 16.5304 12 16 12C15.4696 12 14.9609 12.2107 14.5858 12.5858C14.2107 12.9609 14 13.4696 14 14V21H10V14C10 12.4087 10.6321 10.8826 11.7574 9.75736C12.8826 8.63214 14.4087 8 16 8Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M6 9H2V21H6V9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M4 6C5.10457 6 6 5.10457 6 4C6 2.89543 5.10457 2 4 2C2.89543 2 2 2.89543 2 4C2 5.10457 2.89543 6 4 6Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
+                    <a href="mailto:robbe02@outlook.com" class="footer-social-link">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 8L10.89 13.26C11.2187 13.4793 11.6049 13.5963 12 13.5963C12.3951 13.5963 12.7813 13.4793 13.11 13.26L21 8M5 19H19C19.5304 19 20.0391 18.7893 20.4142 18.4142C20.7893 18.0391 21 17.5304 21 17V7C21 6.46957 20.7893 5.96086 20.4142 5.58579C20.0391 5.21071 19.5304 5 19 5H5C4.46957 5 3.96086 5.21071 3.58579 5.58579C3.21071 5.96086 3 6.46957 3 7V17C3 17.5304 3.21071 18.0391 3.58579 18.4142C3.96086 18.7893 4.46957 19 5 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const hamburger = document.querySelector('.hamburger');
+            const navLinks = document.querySelector('.nav-links');
+            const navContainer = document.querySelector('.nav-container');
+            const projectSections = document.querySelectorAll('.project-section');
+
+            // Hamburger menu functionality
+            hamburger.addEventListener('click', function() {
+                hamburger.classList.toggle('active');
+                navLinks.classList.toggle('active');
+            });
+
+            // Scroll behavior for navigation
+            let lastScroll = 0;
+            window.addEventListener('scroll', function() {
+                const currentScroll = window.pageYOffset;
+                
+                if (currentScroll > 100) {
+                    navContainer.classList.add('scrolled');
+                } else {
+                    navContainer.classList.remove('scrolled');
+                }
+                
+                lastScroll = currentScroll;
+            });
+
+            // Intersection Observer for reveal animation
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, {
+                threshold: 0.15,
+                rootMargin: '0px 0px -10% 0px'
+            });
+
+            // Apply initial styles and observe each project section
+            projectSections.forEach(section => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(40px)';
+                section.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+
+</html>

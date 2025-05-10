@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Detail — Robbe</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F2F5F7;
+            color: #1A1A1A;
+            overflow-x: hidden;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Custom cursor */
+        .custom-cursor {
+            position: fixed;
+            pointer-events: none;
+            border-radius: 50%;
+            background-color: rgba(236, 0, 140, 0.1);
+            width: 24px;
+            height: 24px;
+            transition: width 0.3s, height 0.3s, background-color 0.3s;
+            z-index: 9999;
+            transform: translate3d(-50%, -50%, 0);
+            will-change: transform;
+        }
+
+        .custom-cursor.hover {
+            width: 64px;
+            height: 64px;
+            background-color: rgba(236, 0, 140, 0.2);
+        }
+
+        /* Navigation styles */
+        .nav-container {
+            position: fixed;
+            top: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(242, 245, 247, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            z-index: 1000;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            width: calc(100% - 48px);
+            max-width: 1200px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container.scrolled {
+            top: 16px;
+            background: rgba(242, 245, 247, 0.95);
+        }
+
+        .nav-wrapper {
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1A1A1A;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .logo:hover {
+            color: #EC008C;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 500;
+            color: #1A1A1A;
+            text-decoration: none;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #EC008C;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #EC008C;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            background: transparent;
+            border: none;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background-color: #1A1A1A;
+            margin: 5px 0;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        /* Project detail styles */
+        .project-header {
+            padding: 12rem 0 6rem;
+            background-color: #FFFFFF;
+        }
+
+        .project-intro {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .project-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            line-height: 1.1;
+            color: #1A1A1A;
+            margin-bottom: 2rem;
+        }
+
+        .project-subtitle {
+            font-size: 1.5rem;
+            line-height: 1.6;
+            color: #4B5563;
+            margin-bottom: 3rem;
+            max-width: 800px;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 3rem;
+        }
+
+        .project-tag {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            background-color: #CBD4DC;
+            color: #4B5563;
+        }
+
+        .project-hero-visual {
+            margin-top: 3rem;
+            margin-bottom: 4rem;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .project-hero-image {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .approach-section {
+            padding: 8rem 0;
+            background-color: #F2F5F7;
+        }
+
+        .approach-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1A1A1A;
+            margin-bottom: 2.5rem;
+        }
+
+        .approach-text {
+            font-size: 1.125rem;
+            line-height: 1.8;
+            color: #4B5563;
+            margin-bottom: 2rem;
+        }
+
+        .subsection-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1A1A1A;
+            margin: 3rem 0 1.5rem;
+        }
+
+        .visual-section {
+            padding: 8rem 0;
+            background-color: #FFFFFF;
+        }
+
+        .visual-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .visual-item {
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .visual-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .visual-image {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .visual-full {
+            grid-column: 1 / -1;
+        }
+
+        .result-section {
+            padding: 8rem 0;
+            background-color: #F2F5F7;
+        }
+
+        .result-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .result-text {
+            font-size: 1.125rem;
+            line-height: 1.8;
+            color: #4B5563;
+            margin-bottom: 2rem;
+        }
+
+        .tools-section {
+            padding: 6rem 0;
+            background-color: #FFFFFF;
+        }
+
+        .tools-container {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .badge-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 3rem;
+        }
+
+        .badge {
+            padding: 0.75rem 1.5rem;
+            background-color: #f3f4f6;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            font-weight: 500;
+            color: #4b5563;
+            transition: all 0.3s ease;
+        }
+
+        .badge:hover {
+            background-color: #FFE6F2;
+            color: #EC008C;
+            transform: translateY(-2px);
+        }
+
+        .cta-section {
+            padding: 8rem 0;
+            background-color: #FFF8FC;
+            text-align: center;
+        }
+
+        .cta-container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .cta-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1A1A1A;
+            margin-bottom: 3rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            background-color: #EC008C;
+            color: #FFFFFF;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 500;
+            font-size: 1.125rem;
+            text-decoration: none;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(236, 0, 140, 0.1), 0 2px 4px -1px rgba(236, 0, 140, 0.06);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            background-color: #830D53;
+            box-shadow: 0 6px 8px -1px rgba(131, 13, 83, 0.15), 0 3px 6px -1px rgba(131, 13, 83, 0.1);
+        }
+
+        .btn svg {
+            width: 20px;
+            height: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .btn:hover svg {
+            transform: translateX(4px);
+        }
+
+        /* Responsive styles */
+        @media (max-width: 992px) {
+            .visual-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                top: 16px;
+                width: calc(100% - 32px);
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(242, 245, 247, 0.95);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                padding: 1.5rem 2rem;
+                flex-direction: column;
+                gap: 1.5rem;
+                border-radius: 0 0 20px 20px;
+                box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                border-top: none;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .hamburger.active span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+
+            .hamburger.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(5px, -5px);
+            }
+
+            .project-header,
+            .approach-section,
+            .visual-section,
+            .result-section,
+            .tools-section,
+            .cta-section {
+                padding: 4rem 1.5rem;
+            }
+
+            .project-title {
+                font-size: 2.5rem;
+            }
+
+            .project-subtitle {
+                font-size: 1.25rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #F2F5F7;
+            padding: 1.5rem 2rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            min-height: 80px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .footer-copyright {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.875rem;
+            color: #1A1A1A;
+            font-weight: 500;
+        }
+
+        .footer-tools {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            color: #4B5563;
+        }
+
+        .footer-actions {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .footer-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            height: 40px;
+            background-color: transparent;
+            color: #EC008C;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 500;
+            font-size: 0.875rem;
+            text-decoration: none;
+            border-radius: 20px;
+            border: 1px solid #EC008C;
+            transition: all 0.3s ease;
+        }
+
+        .footer-cta:hover {
+            background-color: rgba(236, 0, 140, 0.05);
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .footer-social-link {
+            color: #4B5563;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .footer-social-link:hover {
+            color: #EC008C;
+            transform: translateY(-1px);
+        }
+
+        .footer-social-link svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .footer {
+                padding: 1.5rem;
+            }
+
+            .footer-container {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .footer-actions {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .footer-social {
+                gap: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Custom cursor -->
+    <div class="custom-cursor"></div>
+
+    <!-- Navigation -->
+    <nav class="nav-container">
+        <div class="nav-wrapper">
+            <a href="index.html" class="logo">
+                Robbe
+            </a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="work.html" class="nav-link">Projecten</a>
+                <a href="aboutme.html" class="nav-link">Over mij</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Project Header -->
+    <header class="project-header">
+        <div class="container">
+            <div class="project-intro">
+                <h1 class="project-title">Financiële App Redesign</h1>
+                <p class="project-subtitle">
+                    Een complete herziening van de gebruikerservaring voor een financiële app, met focus op toegankelijkheid, gebruiksgemak en visuele consistentie.
+                </p>
+                <div class="project-tags">
+                    <span class="project-tag">UX Research</span>
+                    <span class="project-tag">UI Design</span>
+                    <span class="project-tag">App</span>
+                    <span class="project-tag">Toegankelijkheid</span>
+                </div>
+                <div class="project-hero-visual">
+                    <img src="https://via.placeholder.com/1200x600/f2f5f7/1a1a1a" alt="Project hero visual" class="project-hero-image">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Approach Section -->
+    <section class="approach-section">
+        <div class="container">
+            <div class="approach-container">
+                <h2 class="section-title">Mijn aanpak</h2>
+                <p class="approach-text">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo. Sed non mauris vitae erat consequat auctor eu in elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
+                </p>
+                <p class="approach-text">
+                    Nullam ac urna eu felis dapibus condimentum sit amet a augue. Sed non neque elit. Sed ut imperdiet nisi. Proin condimentum fermentum nunc. Etiam pharetra, erat sed fermentum feugiat, velit mauris egestas quam, ut aliquam massa nisl quis neque.
+                </p>
+
+                <h3 class="subsection-title">Onderzoek & Analyse</h3>
+                <p class="approach-text">
+                    Suspendisse potenti. Cras in purus eu magna vulputate luctus. Nam eget dui. Etiam rhoncus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat.
+                </p>
+
+                <h3 class="subsection-title">Prototyping & Testen</h3>
+                <p class="approach-text">
+                    Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Visual Examples Section -->
+    <section class="visual-section">
+        <div class="container">
+            <h2 class="section-title">Visuele resultaten</h2>
+            <div class="visual-grid">
+                <div class="visual-item">
+                    <img src="https://via.placeholder.com/600x400/f2f5f7/1a1a1a" alt="Project visual" class="visual-image">
+                </div>
+                <div class="visual-item">
+                    <img src="https://via.placeholder.com/600x400/f2f5f7/1a1a1a" alt="Project visual" class="visual-image">
+                </div>
+                <div class="visual-item visual-full">
+                    <img src="https://via.placeholder.com/1200x600/f2f5f7/1a1a1a" alt="Project visual" class="visual-image">
+                </div>
+                <div class="visual-item">
+                    <img src="https://via.placeholder.com/600x400/f2f5f7/1a1a1a" alt="Project visual" class="visual-image">
+                </div>
+                <div class="visual-item">
+                    <img src="https://via.placeholder.com/600x400/f2f5f7/1a1a1a" alt="Project visual" class="visual-image">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Result & Reflection Section -->
+    <section class="result-section">
+        <div class="container">
+            <div class="result-container">
+                <h2 class="section-title">Resultaat & Reflectie</h2>
+                <p class="result-text">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo. Sed non mauris vitae erat consequat auctor eu in elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Mauris in erat justo.
+                </p>
+                <p class="result-text">
+                    Nullam ac urna eu felis dapibus condimentum sit amet a augue. Sed non neque elit. Sed ut imperdiet nisi. Proin condimentum fermentum nunc. Etiam pharetra, erat sed fermentum feugiat, velit mauris egestas quam, ut aliquam massa nisl quis neque. Suspendisse in orci enim.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tools Used Section -->
+    <section class="tools-section">
+        <div class="container">
+            <div class="tools-container">
+                <h2 class="section-title">Gebruikte tools</h2>
+                <div class="badge-container">
+                    <span class="badge">Figma</span>
+                    <span class="badge">Adobe XD</span>
+                    <span class="badge">Photoshop</span>
+                    <span class="badge">Illustrator</span>
+                    <span class="badge">InVision</span>
+                    <span class="badge">Miro</span>
+                    <span class="badge">Notion</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call-to-Action Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-container">
+                <h2 class="cta-title">Benieuwd naar meer projecten?</h2>
+                <a href="work.html" class="btn">
+                    Bekijk meer werk
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const cursor = document.querySelector('.custom-cursor');
+            const hamburger = document.querySelector('.hamburger');
+            const navLinks = document.querySelector('.nav-links');
+            const navContainer = document.querySelector('.nav-container');
+            const hoverElements = document.querySelectorAll('.btn, .visual-item, .badge');
+
+            // Hamburger menu functionality
+            hamburger.addEventListener('click', function() {
+                hamburger.classList.toggle('active');
+                navLinks.classList.toggle('active');
+            });
+
+            // Scroll behavior for navigation
+            let lastScroll = 0;
+            window.addEventListener('scroll', function() {
+                const currentScroll = window.pageYOffset;
+                
+                if (currentScroll > 100) {
+                    navContainer.classList.add('scrolled');
+                } else {
+                    navContainer.classList.remove('scrolled');
+                }
+                
+                lastScroll = currentScroll;
+            });
+
+            // Update cursor position
+            document.addEventListener('mousemove', function (e) {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+            });
+
+            // Hide cursor when leaving the window
+            document.addEventListener('mouseleave', function () {
+                cursor.style.opacity = '0';
+            });
+
+            document.addEventListener('mouseenter', function () {
+                cursor.style.opacity = '1';
+            });
+
+            // Handle hover effects
+            hoverElements.forEach(element => {
+                element.addEventListener('mouseenter', function () {
+                    cursor.classList.add('hover');
+                });
+
+                element.addEventListener('mouseleave', function () {
+                    cursor.classList.remove('hover');
+                });
+            });
+        });
+    </script>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <p class="footer-copyright">© 2025 Robbe — UI/UX Designer</p>
+                <p class="footer-tools">Student Fontys ICT Media Design</p>
+            </div>
+            <div class="footer-actions">
+                <a href="contact.html" class="footer-cta">
+                    Contact? →
+                </a>
+                <div class="footer-social">
+                    <a href="https://www.linkedin.com/in/robbe-van-tilburg-1951962a9" class="footer-social-link" target="_blank" rel="noopener noreferrer">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16 8C17.5913 8 19.1174 8.63214 20.2426 9.75736C21.3679 10.8826 22 12.4087 22 14V21H18V14C18 13.4696 17.7893 12.9609 17.4142 12.5858C17.0391 12.2107 16.5304 12 16 12C15.4696 12 14.9609 12.2107 14.5858 12.5858C14.2107 12.9609 14 13.4696 14 14V21H10V14C10 12.4087 10.6321 10.8826 11.7574 9.75736C12.8826 8.63214 14.4087 8 16 8Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M6 9H2V21H6V9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M4 6C5.10457 6 6 5.10457 6 4C6 2.89543 5.10457 2 4 2C2.89543 2 2 2.89543 2 4C2 5.10457 2.89543 6 4 6Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
+                    <a href="mailto:robbe02@outlook.com" class="footer-social-link">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 8L10.89 13.26C11.2187 13.4793 11.6049 13.5963 12 13.5963C12.3951 13.5963 12.7813 13.4793 13.11 13.26L21 8M5 19H19C19.5304 19 20.0391 18.7893 20.4142 18.4142C20.7893 18.0391 21 17.5304 21 17V7C21 6.46957 20.7893 5.96086 20.4142 5.58579C20.0391 5.21071 19.5304 5 19 5H5C4.46957 5 3.96086 5.21071 3.58579 5.58579C3.21071 5.96086 3 6.46957 3 7V17C3 17.5304 3.21071 18.0391 3.58579 18.4142C3.96086 18.7893 4.46957 19 5 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
